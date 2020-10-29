@@ -24,7 +24,7 @@ export default function (props) {
 
     return (
         <View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={props.onClick}>
                 <Text style={estiloButton}>
                     {props.title}
                </Text>
