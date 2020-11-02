@@ -13,22 +13,81 @@ import Button from './components/buttons'
 export default function App(){
 
   const [displayValue, setDisplayValue] = useState(0)
+  const [displayHistoricValue, setDisplayHistoricValue] = useState(0)
+  const [pointerValue, setPointerValue] = useState(true)
+  const [memory, setMemory] = useState('')
+  const [operations, setOperations] = useState('')
 
   function clearMemory(){
     setDisplayValue(0)
     console.log('Função de limpar calculadora')
+    setPointerValue(true)
   }
   function addNumber(e){
 
-    if(displayValue == '0'){
+    if(e == '0' && displayValue == '0'){
+      console.log('Adicionando o Numero primeiro IF: ' + e)
       setDisplayValue(e)
-      console.log('CLiquei no ZERO 0')
-    }else if(displayValue == '.'){
-      setDisplayValue(0  + '.' )
-      console.log('CLiquei no PONTO .')
-    }else{
+      setMemory(e)
+      console.log('Display value: ' + displayValue)
+
+    }else if(e != '0' && displayValue == 0){
+        if(e == '.' && displayValue == 0 && pointerValue == true){
+          setDisplayValue(displayValue + e)
+          // Add na memória
+          setMemory(displayValue)
+          setPointerValue(false)
+          console.log('Adicionando o Ponto aqui: ' + e)
+          console.log('Display value: ' + displayValue)
+        }
+        else if(e != '.' && pointerValue == false) {
+          setDisplayValue(displayValue + e)
+          setMemory(displayValue)
+        }else{
+          setDisplayValue(e)
+          setMemory(displayValue)
+        }
+    }
+    else if(displayValue != 0 && pointerValue == false ) {
+      if(e == '.') {
+        setDisplayValue(displayValue)
+        setMemory(displayValue)
+      }else{
+        console.log('Adicionando o Numero PENULTIMA CONDIÇÃO: ' + e)
+        setDisplayValue(displayValue + e)
+        setMemory(displayValue)
+        console.log('Display value: ' + displayValue)
+      }
+    }
+    else if(e == '.' && pointerValue == true){
       setDisplayValue(displayValue + e)
-      console.log('CLiquei EM NÚMEROS')
+      setMemory(displayValue)
+      setPointerValue(false)
+      
+    }
+    else{
+      setDisplayValue(displayValue + e)
+      setMemory(displayValue)
+      console.log('memoria: ' + memory)
+    }
+
+    
+  }
+
+  function operation(operation){
+    if(operation == '+'){
+      setMemory(displayValue)
+      setDisplayValue(0)
+      setOperations('+')
+      console.log('Memoria' + memory)
+    }
+  }
+
+  function calcular(){
+    if(operations == '+'){
+      setDisplayValue(parseFloat(memory) + parseFloat(displayValue))
+      console.log('MEMÓRIA: ' + memory)
+      console.log('RESULTADO: ' + displayValue)
     }
   }
 
@@ -57,10 +116,10 @@ export default function App(){
             <Button title='1' onClick={ () => addNumber('1')}/>
             <Button title='2' onClick={ () => addNumber('2')}/>
             <Button title='3' onClick={ () => addNumber('3')}/>
-            <Button title='+' operationButton/>
+            <Button title='+' operationButton onClick={ () => operation('+')}/>
             <Button title='0' double onClick={ () => addNumber('0')}/>
             <Button title='.' onClick={ () => addNumber('.')}/>
-            <Button title='=' operationButton/>
+            <Button title='=' operationButton onClick={calcular}/>
       </View>
     </SafeAreaView>
   )
