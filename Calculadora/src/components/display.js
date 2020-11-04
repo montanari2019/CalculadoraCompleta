@@ -16,6 +16,10 @@ export default function (props) {
             <Text style={styles.displayValue} numberOfLines={1}>
                 {props.value}
             </Text>
+
+            <Text style={styles.displayHistoricValue} numberOfLines={1}>
+                {props.historic}
+            </Text>
         </View>
     )
 }
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
 
     displayHistoricValue: {
         // paddingLeft: 20,
-        fontSize: 60,
+        fontSize: 30,
         color: '#f2f2f2',
         backgroundColor: "#252525"
     },
